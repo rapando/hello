@@ -1,13 +1,16 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Build and Test
+name: Build, Test and release
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  release:
+    types:
+      - created
 
 permissions:
   contents: write
@@ -16,16 +19,18 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v2
       with:
         go-version: '1.21'
 
     - name: Build
-      run: go build -v ./...
+      run: go build -o hello
 
     - name: Test
       run: go test -v ./...
@@ -38,7 +43,6 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         with:
-          token: ${{ secrets.RELEASE_TOKEN }}
           tag_name: ${{ github.event_name }}-${{ github.sha }}
           release_name: Release ${{ github.sha }}
           draft: false
@@ -48,7 +52,6 @@ jobs:
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         with:
-          token: ${{ secrets.RELEASE_TOKEN }}
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./hello
           asset_name: hello
