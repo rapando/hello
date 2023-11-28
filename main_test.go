@@ -16,6 +16,8 @@ func TestAddNumbers(t *testing.T) {
 		{"ok:2", args{3, 3}, 6},
 		{"ok:3", args{30, 3}, 33},
 	}
+
+	// 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
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := AddNumbers(tt.args.x, tt.args.y); got != tt.want {
