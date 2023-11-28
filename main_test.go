@@ -36,6 +36,7 @@ func TestIsGreaterThan5(t *testing.T) {
 	}{
 		{"ok", args{6}, true},
 		{"ok2", args{4}, false},
+		{"fail", args{6}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
