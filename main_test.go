@@ -24,3 +24,24 @@ func TestAddNumbers(t *testing.T) {
 		})
 	}
 }
+
+func TestIsGreaterThan5(t *testing.T) {
+	type args struct {
+		x int
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"ok", args{6}, true},
+		{"ok2", args{4}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsGreaterThan5(tt.args.x); got != tt.want {
+				t.Errorf("IsGreaterThan5() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
